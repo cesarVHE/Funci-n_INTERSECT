@@ -11,33 +11,32 @@
 </head>
 <body>
 
-    <header>
-        <h1>Análisis de Intersección de Proyectos</h1>
-    </header>
-
-    <div class="container">
-        <div id="sidebar">
-            <h3>Herramientas</h3>
-            
-            <div class="control-group">
-                <label for="upload-kml"><b>1. Subir archivo KML:</b></label>
-                <input type="file" id="upload-kml" accept=".kml">
-            </div>
-
-            <hr>
-
-            <div class="control-group">
-                <button id="btn-limpiar">Limpiar Mapa</button>
-            </div>
-            
-            <div id="instrucciones" style="margin-top: 20px; font-size: 0.9em; color: #555;">
-                <p>Instrucciones: Sube un KML para verificar si se traslapa con los polígonos de la base de datos.</p>
-            </div>
-        </div>
+    <div id="ui-container">
+        <h1>Análisis de Intersección</h1>
+        <h3>Herramientas</h3>
+        <p>Sube un archivo KML para verificar traslapes con los polígonos del proyecto.</p>
         
-        <div id="map"></div>
+        <div class="control-group">
+            <label for="upload-kml"><b>1. Seleccionar archivo KML:</b></label>
+            <input type="file" id="upload-kml" accept=".kml">
+        </div>
+
+        <button id="btn-limpiar">Limpiar Mapa</button>
+
+        <div id="instrucciones" style="margin-top: 15px; font-size: 12px; color: #888;">
+            <p><i>Nota: Los datos base se cargan automáticamente desde el repositorio.</i></p>
+        </div>
     </div>
 
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+    <script src="https://unpkg.com/@mapbox/togeojson@0.16.0/togeojson.js"></script>
+    
+    <script src="index.js"></script>
+</body>
+</html>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
     <script src="https://unpkg.com/@mapbox/togeojson@0.16.0/togeojson.js"></script>

@@ -1,9 +1,9 @@
 // 1. Configuración Inicial del Mapa
 var map = L.map("map").setView([23.6345, -102.5528], 5);
 
-L.tileLayer("https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png", {
-    attribution: "&copy; OpenStreetMap"
-}).addTo(map);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map)
 
 // Variables Globales
 let baseDeDatosProyectos = null;

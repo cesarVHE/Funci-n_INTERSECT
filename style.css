@@ -1,32 +1,90 @@
-/* Asegura que el cuerpo ocupe toda la pantalla */
-body {
+/* 1. Ajustes generales de pantalla */
+body, html {
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    height: 100vh; /* 100% de la altura de la ventana */
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden; /* Evita scrolls innecesarios */
 }
 
-/* El contenedor debe crecer para llenar el espacio */
-.container {
-    display: flex;
-    flex-grow: 1;
-    overflow: hidden;
-}
-
-#sidebar {
-    width: 300px;
-    background: #f4f4f4;
-    padding: 20px;
-    border-right: 1px solid #ccc;
-}
-
-/* CRÍTICO: El mapa necesita una altura explícita */
+/* 2. El mapa ocupa el 100% de la ventana */
 #map {
-    flex-grow: 1;
-    height: 100%; /* O usa height: calc(100vh - 60px); */
-    min-height: 400px; 
+    height: 100%;
+    width: 100%;
+    z-index: 1;
 }
+
+/* 3. Panel de control flotante (Se adapta a la derecha) */
+#ui-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000; /* Asegura que esté por encima del mapa */
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    width: 280px;
+    max-height: 90vh; /* No permite que sea más alto que la pantalla */
+    overflow-y: auto; /* Si hay mucho contenido, crea scroll interno */
+}
+
+/* 4. Estilos de texto */
+h1 {
+    font-size: 16px;
+    margin: 0 0 15px 0;
+    color: #2c3e50;
+    text-align: center;
+}
+
+h3 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #2c3e50;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+p {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* 5. Estilos de inputs y botones */
+input[type="file"] {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 12px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#btn-limpiar {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
 #btn-limpiar:hover {
     background-color: #c0392b;
+}
+
+/* 6. Ajustes para móviles (Pantallas pequeñas) */
+@media (max-width: 480px) {
+    #ui-container {
+        width: calc(100% - 40px);
+        right: 20px;
+        left: 20px;
+        top: 10px;
+    }
 }

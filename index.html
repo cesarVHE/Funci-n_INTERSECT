@@ -17,11 +17,21 @@
 
     <div class="container">
         <div id="sidebar">
+            <h3>Herramientas de Análisis</h3>
+            
             <div class="control-group">
-                <h3>Capas y Herramientas</h3>
-                <button id="btnIntersect">Calcular Intersección</button>
+                <label for="upload-kml"><b>1. Subir archivo KML:</b></label>
+                <input type="file" id="upload-kml" accept=".kml">
             </div>
-            <div id="layerControl">
+
+            <hr>
+
+            <div class="control-group">
+                <p>Usa este botón para limpiar el mapa y realizar un nuevo análisis.</p>
+                <button id="btn-limpiar">Limpiar Mapa</button>
+            </div>
+            
+            <div id="resultados">
                 </div>
         </div>
         <div id="map"></div>
@@ -29,6 +39,7 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+    <script src="https://unpkg.com/@mapbox/togeojson@0.16.0/togeojson.js"></script>
     
     <script src="index.js"></script>
 </body>

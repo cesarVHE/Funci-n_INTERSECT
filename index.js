@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
     
     // 1. Configuración Inicial del Mapa
+    // Ajustado para que se vea México completo al inicio
     var map = L.map("map").setView([23.6345, -102.5528], 5);
 
-    // Capa base de Carto (evita bloqueos de referer)
+    // Capa base de Carto (Evita bloqueos de referer de OSM)
     L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
         attribution: "&copy; OpenStreetMap &copy; CartoDB"
     }).addTo(map);
@@ -12,13 +13,13 @@ document.addEventListener("DOMContentLoaded", function() {
     let baseDeDatosProyectos = null;
     let capaKMLUsuario = L.featureGroup().addTo(map);
 
-    // URL del archivo local en GitHub
+    // Ruta al archivo GeoJSON en tu repositorio
     const geojsonLocalUrl = "./poligonosproyectos.geojson";
 
-    // 2. Cargar Capa Base (GeoJSON local)
+    // 2. Cargar Capa Base (Proyectos existentes)
     fetch(geojsonLocalUrl)
         .then(response => {
-            if (!response.ok) throw new Error("No se pudo cargar el GeoJSON");
+            if (!response.ok) throw new Error("No se pudo cargar el archivo de proyectos");
             return response.json();
         })
         .then(data => {
@@ -54,6 +55,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 try {
                     const parser = new DOMParser();
                     const kmlDoc = parser.parseFromString(event.target.result, "text/xml");
+                    
+                    // Asegúrate de que toGeoJSON esté disponible (está en tu HTML)
                     const geojsonSubido = toGeoJSON.kml(kmlDoc);
                     
                     capaKMLUsuario.clearLayers();
@@ -62,22 +65,25 @@ document.addEventListener("DOMContentLoaded", function() {
                         style: { color: "#2980b9", weight: 3, fillOpacity: 0.5 } 
                     }).addTo(capaKMLUsuario);
                     
-                    map.fitBounds(capaKMLUsuario.getBounds());
+                    // Ajustar la vista al KML subido
+                    if (capaKMLUsuario.getBounds().isValid()) {
+                        map.fitBounds(capaKMLUsuario.getBounds());
+                    }
 
                     ejecutarAnalisis(geojsonSubido);
                 } catch (error) {
                     console.error("Error al procesar KML:", error);
-                    alert("El archivo KML no es válido.");
+                    alert("El archivo KML no es válido o hubo un error en la conversión.");
                 }
             };
             reader.readAsText(file);
         });
     }
 
-    // 4. Función de Análisis Espacial
+    // 4. Función de Análisis Espacial (Turf.js)
     function ejecutarAnalisis(capaUsuario) {
         if (!baseDeDatosProyectos) {
-            alert("Base de datos no disponible.");
+            alert("La base de datos de proyectos aún no se ha cargado.");
             return;
         }
 
@@ -85,10 +91,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
         capaUsuario.features.forEach(fUser => {
             baseDeDatosProyectos.features.forEach(fDB => {
-                const interseccion = turf.intersect(fUser, fDB);
-                if (interseccion) {
-                    let nombre = fDB.properties.nombre || fDB.properties.Name || "Sin Nombre";
-                    encontrados.push(nombre);
+                // Validación básica de geometría antes de intersectar
+                if (fUser.geometry && fDB.geometry) {
+                    const interseccion = turf.intersect(fUser, fDB);
+                    if (interseccion) {
+                        let nombre = fDB.properties.nombre || fDB.properties.Name || "Sin Nombre";
+                        encontrados.push(nombre);
+                    }
                 }
             });
         });
@@ -97,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const listaUnica = [...new Set(encontrados)];
             alert("⚠️ TRASLAPE DETECTADO con:\n\n- " + listaUnica.join("\n- "));
         } else {
-            alert("✅ Área libre de traslapes.");
+            alert("✅ El área analizada está libre de traslapes.");
         }
     }
 
@@ -106,7 +115,8 @@ document.addEventListener("DOMContentLoaded", function() {
     if (btnLimpiar) {
         btnLimpiar.addEventListener('click', function() {
             capaKMLUsuario.clearLayers();
-            document.getElementById('upload-kml').value = "";
+            const input = document.getElementById('upload-kml');
+            if (input) input.value = "";
             map.setView([23.6345, -102.5528], 5);
         });
     }

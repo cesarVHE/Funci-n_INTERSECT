@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geovisor - Función Intersect</title>
+    <title>Geovisor - Análisis de Intersección</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
@@ -17,7 +17,7 @@
 
     <div class="container">
         <div id="sidebar">
-            <h3>Herramientas de Análisis</h3>
+            <h3>Herramientas</h3>
             
             <div class="control-group">
                 <label for="upload-kml"><b>1. Subir archivo KML:</b></label>
@@ -27,13 +27,14 @@
             <hr>
 
             <div class="control-group">
-                <p>Usa este botón para limpiar el mapa y realizar un nuevo análisis.</p>
                 <button id="btn-limpiar">Limpiar Mapa</button>
             </div>
             
-            <div id="resultados">
-                </div>
+            <div id="instrucciones" style="margin-top: 20px; font-size: 0.9em; color: #555;">
+                <p>Instrucciones: Sube un KML para verificar si se traslapa con los polígonos de la base de datos.</p>
+            </div>
         </div>
+        
         <div id="map"></div>
     </div>
 

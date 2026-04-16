@@ -1,60 +1,32 @@
-body, html {
+/* Asegura que el cuerpo ocupe toda la pantalla */
+body {
     margin: 0;
     padding: 0;
-    height: 100%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* 100% de la altura de la ventana */
 }
 
-#map {
-    height: 100%;
-    width: 100%;
-    z-index: 1;
+/* El contenedor debe crecer para llenar el espacio */
+.container {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
 }
 
-#ui-container {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    background: white;
+#sidebar {
+    width: 300px;
+    background: #f4f4f4;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    width: 280px;
+    border-right: 1px solid #ccc;
 }
 
-h3 {
-    margin-top: 0;
-    font-size: 18px;
-    color: #2c3e50;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
+/* CRÍTICO: El mapa necesita una altura explícita */
+#map {
+    flex-grow: 1;
+    height: 100%; /* O usa height: calc(100vh - 60px); */
+    min-height: 400px; 
 }
-
-p {
-    font-size: 13px;
-    color: #666;
-}
-
-input[type="file"] {
-    width: 100%;
-    margin-top: 10px;
-    font-size: 12px;
-}
-
-#btn-limpiar {
-    width: 100%;
-    margin-top: 15px;
-    padding: 10px;
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s;
-}
-
 #btn-limpiar:hover {
     background-color: #c0392b;
 }
